@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1>Testing out my stuff</h1>
-	<p>So what's going on here?</p>
-	<p>I'd like this to change</p>
-
-<div id="test">
-	<p>What the</p>
+<div id="album-section">
+	<h2 id='username'></h2>
+	<p id='library_info'></p>
+	<h3>Random albums from library</h3>
+	<ul id="albums">
+	</ul>
 </div>
 <!--===================[Deezer SDK Initialization]=================== -->
 <div id="dz-root"></div>
@@ -21,13 +21,47 @@
 
 
 <script>
-DZ.api('/user/4565334962', function(response){
-	console.log("Name of user id 4565334962", response)
-});
 
-DZ.api('/user/4565334962/albums&limit=5', function(response){
-	console.log("User albums", response)
-})
+	function createAlbumItem(name){
+		let li = document.createElement('li');
+		li.textContent = name;
+		return li;
+	}
+	
+	function createTextSection(name, type){
+		let h2 = document.createElement(type);
+		h2.textContent = name;
+		return h2;
+	}
+	
+	album_section = document.querySelector('#album-section')
+	DZ.api('/user/4565334962', function(response){
+		user_name = response['name'];
+		user_name = document.querySelector('#username');
+		user_name.textContent = response['name'];
+		// console.log("Name of user id 4565334962", response);
+	});
+	let album_limit = 1000
+	let user_num = 4565334962
+	let api_call = `/user/${user_num}/albums&limit=${album_limit}`
+	// console.log(api_call)
+
+	DZ.api(api_call, function(response){
+		// console.log("User albums", response);
+		// console.log("Number of albums", response.total);
+		let total_albums = `Number of albums in library: ${response.total}`;
+		library_info = document.querySelector('#library_info');
+		library_info.textContent = total_albums;
+		const album_list = document.querySelector('#albums');
+		for (let ix =0; ix < 5; ix++) {
+			album_ix = Math.floor(Math.random() * response.total)
+			album = response.data[album_ix]
+			album_result = `${album['artist']['name']} - ${album['title']}`
+			// console.log(album_result)
+			album_list.appendChild(createAlbumItem(album_result))
+		}
+
+	})
 </script>
 
 
