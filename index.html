@@ -8,6 +8,8 @@
 <div id="test">
 	<p>What the</p>
 </div>
+<!--===================[Deezer SDK Initialization]=================== -->
+<div id="dz-root"></div>
 <script src="https://e-cdn-files.dzcdn.net/js/min/dz.js"></script>
 <script>
 	DZ.init({
@@ -17,11 +19,18 @@
 	})
 </script>
 
-<!--<script>
+
+<script>
 DZ.api('/user/4565334962', function(response){
 	console.log("Name of user id 4565334962", response)
 });
-</script> -->
+
+DZ.api('/user/4565334962/albums&limit=5', function(response){
+	console.log("User albums", response)
+})
+</script>
+
+
 
 <!--<script>
 	const myAlbums = document.querySelector('p');
