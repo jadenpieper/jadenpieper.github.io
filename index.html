@@ -3,6 +3,50 @@
 <body>
 <h1>Testing out my stuff</h1>
 	<p>So what's going on here?</p>
+	<p>I'd like this to change</p>
+
+<div id="test">
+	<p>What the</p>
+</div>
+<script src="https://e-cdn-files.dzcdn.net/js/min/dz.js"></script>
+<script>
+	DZ.init({
+		appID : 	'517602',
+		channelUrl : 'http://jadenpieper.github.io/channel.html'
+		
+	})
+
+<script>
+DZ.api('/user/4565334962', function(response){
+	console.log("Name of user id 4565334962", response)
+});	
+</script>
+
+<script>
+	const myAlbums = document.querySelector('p');
+	console.log(myAlbums);
+	console.log(myAlbums.textContent);
+	myAlbums.textContent = 'Top albums list....';
+	console.log(myAlbums.textContent);
+ 	const test = document.querySelector('#test'); // Match the first div
+ 	console.log(test.children[0].textContent);
+	test.children[0].textContent = 'I Changed it';
+
+
+</script>
+<!-- <div id="foo\bar"></div>
+<div id="foo:bar"></div>
+
+<script>
+  console.log('#foo\bar');               // "#fooar" (\b is the backspace control character)
+  console.log('#foo\\bar');              // "#foo\bar"
+  console.log('#foo\\\\bar');            // "#foo\\bar"
+  console.log(document.querySelector('#foo\\\\bar')); // Match the first div
+
+  document.querySelector('#foo\\:bar');  // Match the second div
+</script> -->
+
+
 <script src="scripts/main.js"></script>
 </body>
 </html>
