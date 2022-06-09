@@ -1,9 +1,28 @@
+let app_id = '517602';
 // Initial Deezer SDK
 DZ.init({
-	appID : 	'517602',
-	channelUrl : 'http://jadenpieper.github.io/channel.html'
+	appID : 	app_id,
+	// channelUrl : 'http://jadenpieper.github.io/channel.html'
+	channelUrl : 'jadenpieper.com/channel.html'
 	
 })
+
+function loginFunction(){
+	console.log('LoginFunction happened');
+	// Then, request the user to log in
+	DZ.login(function(response) {
+		console.log(response);
+		if (response.authResponse) {
+			console.log('Welcome!  Fetching your information.... ');
+			DZ.api('/user/me', function(response) {
+				console.log('Good to see you, ' + response.name + '.');
+			});
+		} else {
+			console.log('User cancelled login or did not fully authorize.');
+		}
+	}, {perms: 'basic_access,email'});
+	console.log('After login');	
+};
 
 // Create album item for list
 function createAlbumItem(name){
@@ -52,4 +71,31 @@ DZ.api(api_call, function(response){
 		album_list.appendChild(createAlbumItem(album_result))
 	}
 
-})
+});
+
+
+// console.log('Before login');
+// DZ.getLoginStatus(function(response) {
+// 	console.log(response);
+// 	if (response.authResponse) {
+// 		// logged in and connected user, someone you know
+// 		console.log('Someone is logged in')
+// 	} else {
+// 		console.log('No one is logged in')
+// 		// no user session available, someone you dont know
+// 	}
+// });
+// console.log('After login');
+
+
+// // Then, request the user to log in
+// DZ.login(function(response) {
+// 	if (response.authResponse) {
+// 		console.log('Welcome!  Fetching your information.... ');
+// 		DZ.api('/user/me', function(response) {
+// 			console.log('Good to see you, ' + response.name + '.');
+// 		});
+// 	} else {
+// 		console.log('User cancelled login or did not fully authorize.');
+// 	}
+// }, {perms: 'basic_access,email'});
