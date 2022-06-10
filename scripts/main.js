@@ -101,11 +101,11 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 	});
 }
 async function fetchAsync (url) {
-	console.log('Enter fetchAsync w/ cors w/ headres')
+	console.log('Enter fetchAsync GET')
 	let response = await fetch(url, 
-		{method: 'POST', 
-		mode: 'cors',
-		headers : {'Access-Control-Allow-Origin': 'https://api.deezer.com'}
+		{method: 'GET', 
+		// mode: 'cors',
+// 		headers : {'Access-Control-Allow-Origin': 'https://api.deezer.com'}
 	});
 	console.log(response)
 	let data = await response.json();
