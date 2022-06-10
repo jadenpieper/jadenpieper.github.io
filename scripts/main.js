@@ -5,7 +5,7 @@ var access_token = ''
 
 var user_num = ''
 var default_user_num = 4565334962
-var default_user_name = 'bongobonzo_nologin'
+var default_user_name = 'bongobonzo_no_login'
 var logged_in = null
 
 current_url = new URL(window.location.href)
@@ -103,7 +103,7 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 function SavePlaylist(){
 	console.log("Save playlist clicked")
 	console.log('User_num ' + user_num)
-	playlist_call = 'user/' + user_num + '/playlists'
+	playlist_call = '/user/me&' + access_token + '/playlists'
 	console.log('Playlist call: ' + playlist_call)
     // Create a playlist
     DZ.api(playlist_call, 'POST', {title : "Album Shuffle"}, function(response){
