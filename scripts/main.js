@@ -5,6 +5,7 @@ var access_token = ''
 
 var user_num = ''
 var default_user_num = 4565334962
+var default_user_name = 'bongobonzo_nologin'
 var logged_in = null
 
 current_url = new URL(window.location.href)
@@ -22,27 +23,25 @@ if(current_url.hash){
 			break;
 		}
 	}
-	if(logged_in){
-		api_user_call = '/user/me&' + access_token
-		console.log('API Call...')
-		console.log(api_user_call)
-	
-		DZ.api(api_user_call, function(response){
-			console.log(response)
-			user_num = response['id'];
-			getAlbumsList(response);
-		});
-	} else { 
-	console.log('Hash found but no user logged in')
-	user_num = default_user_num
-	logged_in = false
-	}
-	
-} else {
+}
+if(logged_in){
+	api_user_call = '/user/me&' + access_token
+	console.log('API Call...')
+	console.log(api_user_call)
+
+	DZ.api(api_user_call, function(response){
+		console.log(response)
+		user_num = response['id'];
+		getAlbumsList(response['id'], response['name']);
+	});
+} else { 
 	console.log('No user logged in')
 	user_num = default_user_num
+	user_name = default_user_name
 	logged_in = false
+	getAlbumsList(user_num, user_name)
 }
+
 
 function loginFunction(){
 	// Then, request the user to log in (note we use the Client Flow by saying response_type=token)
@@ -69,10 +68,10 @@ function createTextSection(name, type){
 
 console.log('user_num: ' + user_num)
 console.log('Logged in: ' + logged_in)
-function getAlbumsList(user_response,){
-	user_num = user_response['id']
+function getAlbumsList(user_num, user_name_str,){
+	// user_num = user_response['id']
 	user_name = document.querySelector('#username');
-	user_name.textContent = response['name'];
+	user_name.textContent = user_name_str;
 	// Display the user name
 	let user_api_call = `/user/${user_num}`
 	// DZ.api(user_api_call, function(response){
