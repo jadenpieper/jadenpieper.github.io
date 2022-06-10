@@ -21,6 +21,7 @@ if(current_url.hash){
 	
 	DZ.api(api_user_call, function(response){
 		console.log(response)
+		console.log('End api user call')
 	})
 } else {
 	console.log('No user logged in')
