@@ -1,24 +1,21 @@
 // TODO: Make this something meaningful	
-let redirect_uri = 'https://www.jadenpieper.com'
-let perms = 'basic_access,email'
+var redirect_uri = 'https://www.jadenpieper.com'
+var perms = 'manage_library'
+var access_token = ''
 
-console.log(window.location.href);
-// TODO: If above has /#access_token=TOKEN finish following the client flow here: https://developers.deezer.com/api/oauth
-// Specifically: 
-test = new URL(window.location.href)
-if(test.hash){
-	console.log(test)
-	console.log('Hash is ' + test.hash)
-	hash_parts = test.hash.split('&')
+current_url = new URL(window.location.href)
+if(current_url.hash){
+	// Have a hash => probably have an access token
+	hash_parts = current_url.hash.split('&')
 	for (let i=0; i<hash_parts.length; i++){
 		access_loc = hash_parts[i].search('access_token')
 		if (access_loc > -1) {
-			access_str = hash_parts[i].slice(access_loc,hash_parts[i].length)
-			console.log(access_str)
+			access_token = hash_parts[i].slice(access_loc,hash_parts[i].length)
+			console.log(access_token)
 		}
 	}
 	
-	api_user_call = 'user/me&' + access_str
+	api_user_call = '/user/me&' + access_token
 	console.log('API Call...')
 	console.log(api_user_call)
 	
@@ -28,49 +25,11 @@ if(test.hash){
 } else {
 	console.log('No user logged in')
 }
-DZ.getLoginStatus(function(response) {
-	if (response.authResponse) {
-		// logged in and connected user, someone you know
-		console.log('Logged in...')
-		console.log(response)
-	} else {
-		// no user session available, someone you dont know
-		console.log('Not logged in...')
-		console.log(response)
-	}
-});
 
 function loginFunction(){
-	console.log('Buton clicked');
-	// DZ.login(function(response) {
-// 		if(response.authResponse) {
-// 			console.log('Welcome! Fetching your information...');
-// 			DZ.api('/user/me', function(response) {
-// 				console.log('Good to see you, ' + response.name + '.');
-// 			});
-// 		} else {
-// 			console.log('User cancelled login or did not fully authorize.');
-// 		}
-// 	}, {perms: 'basic_access,email'});
-};
-function loginFunction(){
-	console.log('LoginFunction happened');
-
 	// Then, request the user to log in (note we use the Client Flow by saying response_type=token)
 	login_url= `https://connect.deezer.com/oauth/auth.php?app_id=${app_id}&redirect_uri=${redirect_uri}&perms=${perms}&response_type=token`;
 	window.open(login_url)
-	// DZ.login(function(response) {
-	// 	console.log(response);
-	// 	if (response.authResponse) {
-	// 		console.log('Welcome!  Fetching your information.... ');
-	// 		DZ.api('/user/me', function(response) {
-	// 			console.log('Good to see you, ' + response.name + '.');
-	// 		});
-	// 	} else {
-	// 		console.log('User cancelled login or did not fully authorize.');
-	// 	}
-	// }, {perms: 'basic_access,email'});
-	console.log('After login');
 	
 };
 
@@ -91,15 +50,21 @@ album_section = document.querySelector('#album-section')
 
 // Set user number
 // TODO: Do this via a signed in user if they do that...
-let user_num = 4565334962
-
+if(access_token == ''){
+	var user_num = 4565334962
+	var logged_in = false
+} else {
+	var user_num = 'me&' + access_token
+	var logged_in = true
+}
+console.log('user_num: ' + user_num)
+console.log('Logged in: ' + logged_in)
 // Display the user name
 let user_api_call = `/user/${user_num}`
-DZ.api('/user/4565334962', function(response){
+DZ.api(user_api_call, function(response){
 	user_name = response['name'];
 	user_name = document.querySelector('#username');
 	user_name.textContent = response['name'];
-	// console.log("Name of user id 4565334962", response);
 });
 // Set maximum number of albums to query
 // TODO: Make this a variable? Or increase if the number of albums in the query equals this
@@ -122,30 +87,3 @@ DZ.api(api_call, function(response){
 	}
 
 });
-
-
-// console.log('Before login');
-// DZ.getLoginStatus(function(response) {
-// 	console.log(response);
-// 	if (response.authResponse) {
-// 		// logged in and connected user, someone you know
-// 		console.log('Someone is logged in')
-// 	} else {
-// 		console.log('No one is logged in')
-// 		// no user session available, someone you dont know
-// 	}
-// });
-// console.log('After login');
-
-
-// // Then, request the user to log in
-// DZ.login(function(response) {
-// 	if (response.authResponse) {
-// 		console.log('Welcome!  Fetching your information.... ');
-// 		DZ.api('/user/me', function(response) {
-// 			console.log('Good to see you, ' + response.name + '.');
-// 		});
-// 	} else {
-// 		console.log('User cancelled login or did not fully authorize.');
-// 	}
-// }, {perms: 'basic_access,email'});
