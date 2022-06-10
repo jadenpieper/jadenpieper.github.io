@@ -2,6 +2,18 @@
 let redirect_uri = 'https://www.jadenpieper.com'
 let perms = 'basic_access,email'
 
+console.log(window.location.href);
+// TODO: If above has /#access_token=TOKEN finish following the client flow here: https://developers.deezer.com/api/oauth
+// Specifically: 
+test = new URL(window.location.href)
+if(test.hash){
+	api_user_call = 'https://api.deezer.com/user/me&' + test.hash
+	DZ.api(api_user_call, function(response){
+		console.log(response)
+	})
+} else {
+	console.log('No user logged in')
+}
 DZ.getLoginStatus(function(response) {
 	if (response.authResponse) {
 		// logged in and connected user, someone you know
@@ -30,8 +42,8 @@ function loginFunction(){
 function loginFunction(){
 	console.log('LoginFunction happened');
 
-	// Then, request the user to log in
-	login_url= `https://connect.deezer.com/oauth/auth.php?app_id=${app_id}&redirect_uri=${redirect_uri}&perms=${perms}`;
+	// Then, request the user to log in (note we use the Client Flow by saying response_type=token)
+	login_url= `https://connect.deezer.com/oauth/auth.php?app_id=${app_id}&redirect_uri=${redirect_uri}&perms=${perms}&response_type=token`;
 	window.open(login_url)
 	// DZ.login(function(response) {
 	// 	console.log(response);
@@ -77,7 +89,6 @@ DZ.api('/user/4565334962', function(response){
 });
 // Set maximum number of albums to query
 // TODO: Make this a variable? Or increase if the number of albums in the query equals this
-console.log(window.location.href);
 let album_limit = 1000
 
 // Define the api call for getting the library in albums
