@@ -7,6 +7,8 @@ console.log(window.location.href);
 // Specifically: 
 test = new URL(window.location.href)
 if(test.hash){
+	console.log(test)
+	console.log('Hash is ' + test.hash)
 	api_user_call = 'https://api.deezer.com/user/me&' + test.hash
 	DZ.api(api_user_call, function(response){
 		console.log(response)
