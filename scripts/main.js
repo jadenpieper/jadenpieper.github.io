@@ -114,7 +114,8 @@ function SavePlaylist(){
 //     });
 	// Example of workign api call
 	// 'https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD'
-	playlist_call = `https://api.deezer.com/user/me/playslists&title=${ptitle}&request_method=POST&access_token=${access_token}`
+	// https://api.deezer.com/user/me/playslists&title=HEHE&request_method=POST&access_token=access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
+	playlist_call = `https://api.deezer.com/user/me/playslists&title=${ptitle}&request_method=POST&${access_token}`
 	console.log(playlist_call)
 	const userAction = async () => {
 	  const response = await fetch(playlist_call);
