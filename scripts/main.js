@@ -1,18 +1,35 @@
-let app_id = '517602';
 // TODO: Make this something meaningful	
-let redirect_uri = 'jadenpieper.com/callback'
+let redirect_uri = 'https://www.jadenpieper.com'
 let perms = 'basic_access,email'
-// Initial Deezer SDK
-DZ.init({
-	appID : 	app_id,
-	// channelUrl : 'http://jadenpieper.github.io/channel.html'
-	channelUrl : 'jadenpieper.com/channel.html'
-	
-})
+
+DZ.getLoginStatus(function(response) {
+	if (response.authResponse) {
+		// logged in and connected user, someone you know
+		console.log('Logged in...')
+		console.log(response)
+	} else {
+		// no user session available, someone you dont know
+		console.log('Not logged in...')
+		console.log(response)
+	}
+});
 
 function loginFunction(){
+	console.log('Buton clicked');
+	// DZ.login(function(response) {
+// 		if(response.authResponse) {
+// 			console.log('Welcome! Fetching your information...');
+// 			DZ.api('/user/me', function(response) {
+// 				console.log('Good to see you, ' + response.name + '.');
+// 			});
+// 		} else {
+// 			console.log('User cancelled login or did not fully authorize.');
+// 		}
+// 	}, {perms: 'basic_access,email'});
+};
+function loginFunction(){
 	console.log('LoginFunction happened');
-	
+
 	// Then, request the user to log in
 	login_url= `https://connect.deezer.com/oauth/auth.php?app_id=${app_id}&redirect_uri=${redirect_uri}&perms=${perms}`;
 	window.open(login_url)
@@ -27,7 +44,8 @@ function loginFunction(){
 	// 		console.log('User cancelled login or did not fully authorize.');
 	// 	}
 	// }, {perms: 'basic_access,email'});
-	console.log('After login');	
+	console.log('After login');
+	
 };
 
 // Create album item for list
@@ -59,6 +77,7 @@ DZ.api('/user/4565334962', function(response){
 });
 // Set maximum number of albums to query
 // TODO: Make this a variable? Or increase if the number of albums in the query equals this
+console.log(window.location.href);
 let album_limit = 1000
 
 // Define the api call for getting the library in albums
