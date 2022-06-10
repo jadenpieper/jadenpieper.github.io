@@ -134,6 +134,14 @@ function SavePlaylist(){
 	playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
 	console.log(playlist_call)
 	data = fetchAsync(playlist_call)
+	// Flow: * 
+	// * Get Playlist ID
+	// * Get track ids for each album in order
+	// * Combine into a comma separated list
+	// * Send request
+	// e.g.
+	// https://api.deezer.com/playlist/10426085322/tracks&songs=COMMASEPARATEDSONGS&request_method=POST&access_token=ACCESS_TOKEN
+	track_template = ''
 	// const userAction = async () => {
 	//   const response = await fetch(playlist_call);
 	//   // const myJson = await response.json(); //extract JSON from the http response
