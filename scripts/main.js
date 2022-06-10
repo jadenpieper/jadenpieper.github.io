@@ -102,7 +102,7 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 }
 
 function SavePlaylist(){
-	let ptitle = 'Album Shuffle'
+	let ptitle = 'AlbumShuffle'
 	console.log("Save playlist clicked")
 	console.log('User_num ' + user_num)
 	// playlist_call = '/user/me/playlists'
