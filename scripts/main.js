@@ -104,7 +104,7 @@ function SavePlaylist(){
 	console.log("Save playlist clicked")
 	console.log('User_num ' + user_num)
     // Create a playlist
-    DZ.api('user/me/playlists', 'POST', {title : "Album Shuffle"}, function(response){
+    DZ.api('user/' + user_num + '/playlists', 'POST', {title : "Album Shuffle"}, function(response){
 		console.log(response)
     	console.log("My new playlist ID", response.id);
     });
