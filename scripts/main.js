@@ -3,7 +3,13 @@ var redirect_uri = 'https://www.jadenpieper.com'
 var perms = 'manage_library'
 var access_token = ''
 
+var user_num = ''
+var default_user_num = 4565334962
+var logged_in = null
+
 current_url = new URL(window.location.href)
+
+// Set user number
 if(current_url.hash){
 	// Have a hash => probably have an access token
 	hash_parts = current_url.hash.split('&')
@@ -12,6 +18,11 @@ if(current_url.hash){
 		if (access_loc > -1) {
 			access_token = hash_parts[i].slice(access_loc,hash_parts[i].length)
 			console.log(access_token)
+		} else{
+			console.log('No token found...using default stuff and breaking out')
+			user_num = default_user_num;
+			logged_in = false
+			break;
 		}
 	}
 	
@@ -21,10 +32,13 @@ if(current_url.hash){
 	
 	DZ.api(api_user_call, function(response){
 		console.log(response)
-		console.log('End api user call')
+		user_num = response['id'];
+		logged_in = true;
 	})
 } else {
 	console.log('No user logged in')
+	user_num = default_user_num
+	logged_in = false
 }
 
 function loginFunction(){
@@ -49,15 +63,7 @@ function createTextSection(name, type){
 
 album_section = document.querySelector('#album-section')
 
-// Set user number
-// TODO: Do this via a signed in user if they do that...
-if(access_token == ''){
-	var user_num = 4565334962
-	var logged_in = false
-} else {
-	var user_num = 'me&' + access_token
-	var logged_in = true
-}
+
 console.log('user_num: ' + user_num)
 console.log('Logged in: ' + logged_in)
 // Display the user name
