@@ -25,21 +25,22 @@ if(current_url.hash){
 	}
 }
 if(logged_in){
+	console.log('Logged in');
+	logged_in = true
 	api_user_call = '/user/me&' + access_token
 	console.log('API Call...')
 	console.log(api_user_call)
 
 	DZ.api(api_user_call, function(response){
-		console.log(response)
 		user_num = response['id'];
-		getAlbumsList(response['id'], response['name']);
+		getAlbumsList(response['id'], response['name'], logged_in);
 	});
 } else { 
 	console.log('No user logged in')
 	user_num = default_user_num
 	user_name = default_user_name
 	logged_in = false
-	getAlbumsList(user_num, user_name)
+	getAlbumsList(user_num, user_name, logged_in)
 }
 
 
@@ -63,12 +64,7 @@ function createTextSection(name, type){
 	return h2;
 }
 
-// album_section = document.querySelector('#album-section')
-
-
-console.log('user_num: ' + user_num)
-console.log('Logged in: ' + logged_in)
-function getAlbumsList(user_num, user_name_str,){
+function getAlbumsList(user_num, user_name_str, logged_in){
 	// user_num = user_response['id']
 	user_name = document.querySelector('#username');
 	user_name.textContent = user_name_str;
@@ -98,6 +94,12 @@ function getAlbumsList(user_num, user_name_str,){
 			album_result = `${album['artist']['name']} - ${album['title']}`
 			album_list.appendChild(createAlbumItem(album_result))
 		}
-
+		if(logged_in){
+			document.getElementById("SaveButton").disabled = false;
+		}
 	});
+}
+
+function SavePlaylist(){
+	console.log("Save playlist clicked")
 }
