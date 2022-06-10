@@ -48,6 +48,7 @@ function loginFunction(){
 	// Then, request the user to log in (note we use the Client Flow by saying response_type=token)
 	login_url= `https://connect.deezer.com/oauth/auth.php?app_id=${app_id}&redirect_uri=${redirect_uri}&perms=${perms}&response_type=token`;
 	window.open(login_url)
+
 	
 };
 
@@ -101,15 +102,20 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 }
 
 function SavePlaylist(){
+	let ptitle = 'Album Shuffle'
 	console.log("Save playlist clicked")
 	console.log('User_num ' + user_num)
-	playlist_call = '/user/me/playlists'
-	console.log('Playlist call: ' + playlist_call)
-    // Create a playlist
-    DZ.api(playlist_call, 'POST', {access_token: access_token, title : "Album Shuffle"}, function(response){
-		console.log(response)
-    	console.log("My new playlist ID", response.id);
-    });
-
+	// playlist_call = '/user/me/playlists'
+// 	console.log('Playlist call: ' + playlist_call)
+//     // Create a playlist
+//     DZ.api(playlist_call, 'POST', {access_token: access_token, title : "Album Shuffle"}, function(response){
+// 		console.log(response)
+//     	console.log("My new playlist ID", response.id);
+//     });
+	// Example of workign api call
+	// 'https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD'
+	playlist_call = `https://api.deezer.com/user/me/playslists&title=${ptitle}&request_method=POST&access_token=${access_token}`
+    const response = await fetch(playlist_call);
+	console.log(response)
 	
 }
