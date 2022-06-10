@@ -18,23 +18,25 @@ if(current_url.hash){
 		if (access_loc > -1) {
 			access_token = hash_parts[i].slice(access_loc,hash_parts[i].length)
 			console.log(access_token)
-		} else{
-			console.log('No token found...using default stuff and breaking out')
-			user_num = default_user_num;
-			logged_in = false
+			logged_in = true;
 			break;
 		}
 	}
+	if(logged_in){
+		api_user_call = '/user/me&' + access_token
+		console.log('API Call...')
+		console.log(api_user_call)
 	
-	api_user_call = '/user/me&' + access_token
-	console.log('API Call...')
-	console.log(api_user_call)
+		DZ.api(api_user_call, function(response){
+			console.log(response)
+			user_num = response['id'];
+		});
+	} else { 
+	console.log('Hash found but no user logged in')
+	user_num = default_user_num
+	logged_in = false
+	}
 	
-	DZ.api(api_user_call, function(response){
-		console.log(response)
-		user_num = response['id'];
-		logged_in = true;
-	})
 } else {
 	console.log('No user logged in')
 	user_num = default_user_num
