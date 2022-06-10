@@ -9,7 +9,16 @@ test = new URL(window.location.href)
 if(test.hash){
 	console.log(test)
 	console.log('Hash is ' + test.hash)
-	api_user_call = 'https://api.deezer.com/user/me&' + test.hash
+	hash_parts = test.hash.split('&')
+	for (let i=0; i<hash_parts.length; i++){
+		access_loc = hash_parts[i].search('access_token')
+		if (access_loc > -1) {
+			access_str = hash_parts[i].slice(access_loc,hash_parts[i].length)
+			console.log(access_str)
+		}
+	}
+	
+	api_user_call = 'https://api.deezer.com/user/me&' + access_str
 	DZ.api(api_user_call, function(response){
 		console.log(response)
 	})
