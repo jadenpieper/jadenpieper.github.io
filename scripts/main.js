@@ -102,4 +102,12 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 
 function SavePlaylist(){
 	console.log("Save playlist clicked")
+	console.log('User_num ' + user_num)
+    // Create a playlist
+    DZ.api('user/me/playlists', 'POST', {title : "Album Shuffle"}, function(response){
+		console.log(response)
+    	console.log("My new playlist ID", response.id);
+    });
+
+	
 }
