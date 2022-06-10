@@ -19,6 +19,9 @@ if(test.hash){
 	}
 	
 	api_user_call = 'https://api.deezer.com/user/me&' + access_str
+	console.log('API Call...')
+	console.log(api_user_call)
+	
 	DZ.api(api_user_call, function(response){
 		console.log(response)
 	})
