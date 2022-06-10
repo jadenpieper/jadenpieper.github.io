@@ -1,4 +1,7 @@
 let app_id = '517602';
+// TODO: Make this something meaningful	
+let redirect_uri = 'jadenpieper.com/callback'
+let perms = 'basic_access,email'
 // Initial Deezer SDK
 DZ.init({
 	appID : 	app_id,
@@ -9,18 +12,21 @@ DZ.init({
 
 function loginFunction(){
 	console.log('LoginFunction happened');
+	
 	// Then, request the user to log in
-	DZ.login(function(response) {
-		console.log(response);
-		if (response.authResponse) {
-			console.log('Welcome!  Fetching your information.... ');
-			DZ.api('/user/me', function(response) {
-				console.log('Good to see you, ' + response.name + '.');
-			});
-		} else {
-			console.log('User cancelled login or did not fully authorize.');
-		}
-	}, {perms: 'basic_access,email'});
+	login_url= `https://connect.deezer.com/oauth/auth.php?app_id=${app_id}&redirect_uri=${redirect_uri}&perms=${perms}`;
+	window.open(login_url)
+	// DZ.login(function(response) {
+	// 	console.log(response);
+	// 	if (response.authResponse) {
+	// 		console.log('Welcome!  Fetching your information.... ');
+	// 		DZ.api('/user/me', function(response) {
+	// 			console.log('Good to see you, ' + response.name + '.');
+	// 		});
+	// 	} else {
+	// 		console.log('User cancelled login or did not fully authorize.');
+	// 	}
+	// }, {perms: 'basic_access,email'});
 	console.log('After login');	
 };
 
