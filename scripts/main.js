@@ -115,7 +115,15 @@ function SavePlaylist(){
 	// Example of workign api call
 	// 'https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD'
 	playlist_call = `https://api.deezer.com/user/me/playslists&title=${ptitle}&request_method=POST&access_token=${access_token}`
-    const response = await fetch(playlist_call);
-	console.log(response)
+	console.log(playlist_call)
+	const userAction = async () => {
+	  const response = await fetch(playlist_call);
+	  // const myJson = await response.json(); //extract JSON from the http response
+	  // // do something with myJson
+	  console.log(response)
+	}
+    // const response = await fetch(playlist_call);
+	// console.log(response)
+	console.log(userAction)
 	
 }
