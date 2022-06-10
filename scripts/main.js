@@ -100,6 +100,15 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 		}
 	});
 }
+async function fetchAsync (url) {
+	console.log('Enter fetchAsync')
+	let response = await fetch(url);
+	console.log(response)
+	let data = await response.json();
+	console.log(data)
+	concole.log('Exit fetchAsync')
+	return data;
+}
 
 function SavePlaylist(){
 	let ptitle = 'AlbumShuffle'
@@ -117,12 +126,13 @@ function SavePlaylist(){
 	// https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
 	playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
 	console.log(playlist_call)
-	const userAction = async () => {
-	  const response = await fetch(playlist_call);
-	  // const myJson = await response.json(); //extract JSON from the http response
-	  // // do something with myJson
-	  console.log(response)
-	}
+	data = fetchAsync(playlist_call)
+	// const userAction = async () => {
+	//   const response = await fetch(playlist_call);
+	//   // const myJson = await response.json(); //extract JSON from the http response
+	//   // // do something with myJson
+	//   console.log(response)
+	// }
     // const response = await fetch(playlist_call);
 	// console.log(response)
 	console.log(userAction)
