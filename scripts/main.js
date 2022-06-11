@@ -208,16 +208,14 @@ function SavePlaylist(){
 						}
 						console.log(album_track_ids)
 						all_track_ids = all_track_ids.concat(album_track_ids)
+						if(i == albums_ids.length - 1){
+							console.log('Should be last album...')
+							console.log(all_track_ids)
+						}
 					}
 				)
 // 				// DeezerPromise()
 			}
-			p.then(
-				function(){
-					console.log('All track ids: ')
-					console.log(all_track_ids)
-				}
-			)
 		}
 	)
 	
