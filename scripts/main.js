@@ -190,16 +190,19 @@ function SavePlaylist(){
 				album_tracks_call = `https://api.deezer.com/album/${album_ids[i]}/tracks`
 				console.log('Album tracks call:')
 				console.log(album_tracks_call)
-				p = p.then(function(){
-					return DeezerPromise(album_tracks_call)
+				p = p.then(
+					function(){
+						console.log('Asking for deezer promise on that call')
+						return DeezerPromise(album_tracks_call)
 				}).then(
 					function(response){
+						console.log('In the next then from last promise...')
 						console.log(response)
 						album_track_ids = []
-						for(let k = 0; k<response.data.length; k++){
-							album_track_ids.push(response.data[k]['id'])
-						}
-						console.log(album_track_ids)
+						// for(let k = 0; k<response.data.length; k++){
+						// 	album_track_ids.push(response.data[k]['id'])
+						// }
+						// console.log(album_track_ids)
 					}
 				)
 				// DeezerPromise()
