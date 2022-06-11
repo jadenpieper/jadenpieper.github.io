@@ -185,38 +185,33 @@ function SavePlaylist(){
 			} else{
 				console.log('Found Playlist: ' + playlist_id);
 			}
-			i=0;
-			album_tracks_call = `https://api.deezer.com/album/${album_ids[i]}/tracks`
-			console.log('Album tracks call:')
-			console.log(album_tracks_call)
-			return DeezerPromise(album_tracks_call)
-			// for(let i=0, p = Promise.resolve(); i<album_ids.length; i++){
-//
-// 				p = p.then(
-// 					function(){
-//
-// 						album_tracks_call = `https://api.deezer.com/album/${album_ids[i]}/tracks`
-// 						console.log('Album tracks call:')
-// 						console.log(album_tracks_call)
-// 						return DeezerPromise(album_tracks_call)
-// 				}).then(
-// 					function(response){
-// 						console.log('In the next then from last promise...')
-// 						console.log(response)
-// 						album_track_ids = []
-// 						// for(let k = 0; k<response.data.length; k++){
+			// i=0;
+// 			album_tracks_call = `https://api.deezer.com/album/${album_ids[i]}/tracks`
+// 			console.log('Album tracks call:')
+// 			console.log(album_tracks_call)
+//return DeezerPromise(album_tracks_call)
+			for(let i=0, p = Promise.resolve(); i<album_ids.length; i++){
+
+				p = p.then(
+					function(){
+
+						album_tracks_call = `album/${album_ids[i]}/tracks`
+						console.log('Album tracks call:')
+						console.log(album_tracks_call)
+						return DeezerPromise(album_tracks_call)
+				}).then(
+					function(response){
+						console.log('In the next then from last promise...')
+						console.log(response)
+						album_track_ids = []
+						// for(let k = 0; k<response.data.length; k++){
 // 						// 	album_track_ids.push(response.data[k]['id'])
 // 						// }
 // 						// console.log(album_track_ids)
-// 					}
-// 				)
+					}
+				)
 // 				// DeezerPromise()
 // 			}
-		}
-	).then(
-		function(response){
-			console.log('Hopefully have tracks here')
-			console.log(response)
 		}
 	)
 	
