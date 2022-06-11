@@ -43,7 +43,6 @@ if(logged_in){
 	user_name = default_user_name
 	logged_in = false
 	getAlbumsList(user_num, user_name, logged_in)
-	findAlbumShufflePlaylist()
 }
 
 
@@ -111,7 +110,7 @@ async function fetchAsync (url) {
 	});
 	console.log(response);
 }
-function findAlbumShufflePlaylist() {
+function findAlbumShufflePlaylist(delete_playlist) {
 	find_playlist_call = '/user/' + user_num + '/playlists'
 	console.log('Find Playlist call - ')
 	console.log(find_playlist_call)
@@ -120,31 +119,39 @@ function findAlbumShufflePlaylist() {
 			playlist = response.data[i]
 			if(playlist['title'] == ptitle){
 				console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
-				delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
-				console.log(delete_playlist_call)
-				fetchAsync(delete_playlist_call)
+				if(delete_playlist){
+					delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
+					console.log(delete_playlist_call)
+					fetchAsync(delete_playlist_call)
+				} else {
+					return playlist['id']
+				}
 			}
 		}
+		return null
 	})
+}
+
+function CreateAlbumShufflePlaylist(){
+	playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
+	console.log(playlist_call)
+	fetchAsync(playlist_call);
+	delete_plist = false
+	playlist_id = findAlbumShufflePlaylist(delete_plist);
 }
 
 function SavePlaylist(){
 	
 	console.log("Save playlist clicked")
 	console.log('User_num ' + user_num)
-	// playlist_call = '/user/me/playlists'
-// 	console.log('Playlist call: ' + playlist_call)
-//     // Create a playlist
-//     DZ.api(playlist_call, 'POST', {access_token: access_token, title : "Album Shuffle"}, function(response){
-// 		console.log(response)
-//     	console.log("My new playlist ID", response.id);
-//     });
+	// Find and Delete AlbumShuffle if it exists
+	delete_plist = true
+	findAlbumShufflePlaylist(delete_plist)
 	// Example of workign api call
 	// https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
 	// https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
-	playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
-	console.log(playlist_call)
-	data = fetchAsync(playlist_call)
+	playlist_id = CreateAlbumShufflePlaylist();
+	console.log('Playlist ID: ' + playlist_id);
 	// Flow: * 
 	// * Get Playlist ID
 	// * Get track ids for each album in order
