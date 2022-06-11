@@ -104,11 +104,7 @@ async function fetchAsync (url) {
 	console.log('Enter fetchAsync contenttype')
 	let response = await fetch(url, 
 		{method: 'POST', 
-		mode: 'cors',
-		headers : {
-			'Content-Type': 'application/json',
-			// 'Access-Control-Allow-Origin': 'https://api.deezer.com'
-		}
+		mode: 'no-cors'
 	});
 	console.log(response)
 	let data = await response.json();
