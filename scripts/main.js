@@ -113,6 +113,7 @@ async function fetchAsync (url) {
 		{method: 'POST', 
 		mode: 'no-cors'
 	});
+	return response
 }
 // function findAlbumShufflePlaylist(delete_playlist) {
 //
@@ -147,6 +148,7 @@ function SavePlaylist(){
 				console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 				delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
 				console.log(delete_playlist_call)
+				// TODO: Pretty sure this flow is wrong, should be a promise?
 				fetchAsync(delete_playlist_call)
 			}
 		}
@@ -155,21 +157,25 @@ function SavePlaylist(){
 			console.log('Making playlist')
 			playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
 			console.log(playlist_call)
+			// TODO: Pretty sure this flow is wrong, should be a promise?
 			fetchAsync(playlist_call);
 		}
 	).then(
-		DZ.api(find_playlist_call, function(response){
-			console.log('Finding playlist')
-			for(let i = 0; i<response.total; i++){
-				playlist = response.data[i]
-				if(playlist['title'] == ptitle){
-					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
-					return playlist['id']
+		DeezerPromise(find_playlist_call).then(
+			function(response){
+				
+		// DZ.api(find_playlist_call, function(response){
+				console.log('Finding playlist')
+				console.log(response)
+				for(let i = 0; i<response.total; i++){
+					playlist = response.data[i]
+					if(playlist['title'] == ptitle){
+						console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
+						return playlist['id']
 
+					}
 				}
-			}
-			return null
-		})
+				return null
 	).then(
 		function(playlist_id){
 			console.log('Found Playlist: ' + playlist_id);
