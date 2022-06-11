@@ -189,6 +189,7 @@ function SavePlaylist(){
 // 			console.log('Album tracks call:')
 // 			console.log(album_tracks_call)
 //return DeezerPromise(album_tracks_call)
+			all_track_ids = []
 			for(let i=0, p = Promise.resolve(); i<album_ids.length; i++){
 
 				p = p.then(
@@ -202,14 +203,17 @@ function SavePlaylist(){
 						console.log('In the next then from last promise...')
 						console.log(response)
 						album_track_ids = []
-						// for(let k = 0; k<response.data.length; k++){
-// 						// 	album_track_ids.push(response.data[k]['id'])
-// 						// }
-// 						// console.log(album_track_ids)
+						for(let k = 0; k<response.data.length; k++){
+							album_track_ids.push(response.data[k]['id'])
+						}
+						console.log(album_track_ids)
+						all_track_ids = all_track_ids.concat(album_track_ids)
 					}
 				)
 // 				// DeezerPromise()
 			}
+			console.log('All track ids: ')
+			console.log(all_track_ids)
 		}
 	)
 	
