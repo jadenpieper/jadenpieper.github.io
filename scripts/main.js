@@ -212,8 +212,12 @@ function SavePlaylist(){
 				)
 // 				// DeezerPromise()
 			}
-			console.log('All track ids: ')
-			console.log(all_track_ids)
+			p.then(
+				function(){
+					console.log('All track ids: ')
+					console.log(all_track_ids)
+				}
+			)
 		}
 	)
 	
