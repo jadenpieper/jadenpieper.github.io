@@ -117,59 +117,46 @@ async function fetchAsync (url) {
 	});
 	return response
 }
-// function findAlbumShufflePlaylist(delete_playlist) {
-//
-// }
-
-// function CreateAlbumShufflePlaylist(){
-// 	playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
-// 	console.log(playlist_call)
-// 	fetchAsync(playlist_call);
-// 	delete_plist = false
-// 	playlist_id = findAlbumShufflePlaylist(delete_plist);
-// }
 
 function SavePlaylist(){
 	
-	console.log("Save playlist clicked")
-	console.log('User_num ' + user_num)
-	// Find and Delete AlbumShuffle if it exists
-	delete_plist = true
-
+	// console.log("Save playlist clicked")
+	// console.log('User_num ' + user_num)
+	
+	// Call for finding all a user's playlists
 	find_playlist_call = '/user/' + user_num + '/playlists'
-	console.log('Find Playlist call - ')
-	console.log(find_playlist_call)
+	// console.log('Find Playlist call - ')
+	// console.log(find_playlist_call)
+	
 	// Start by finding all playlists
 	DeezerPromise(find_playlist_call).then(
 		function(response){
-	// DZ.api(find_playlist_call, function(response){
-		console.log('Looking for playlists to delete')
-		for(let i = 0; i<response.total; i++){
-			playlist = response.data[i]
-			if(playlist['title'] == ptitle){
-				console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
-				delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
-				console.log(delete_playlist_call)
-				// TODO: Pretty sure this flow is wrong, should be a promise?
-				return fetchAsync(delete_playlist_call)
+			// console.log('Looking for playlists to delete')
+			for(let i = 0; i<response.total; i++){
+				playlist = response.data[i]
+				if(playlist['title'] == ptitle){
+					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
+					delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
+					console.log(delete_playlist_call)
+					return fetchAsync(delete_playlist_call)
+				}
 			}
-		}
 	}).then(
 		function(){
-			console.log('Making playlist')
+			// console.log('Making playlist')
 			playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
-			console.log(playlist_call)
-			// TODO: Pretty sure this flow is wrong, should be a promise?
+			// console.log(playlist_call)
 			return fetchAsync(playlist_call);
 		}
 	).then(
 		function(){
+			// find all user playlists again
 			return DeezerPromise(find_playlist_call)
 		}
 	).then(
 		function(response){
-			console.log('Finding playlist')
-			console.log(response)
+			// console.log('Finding playlist')
+			// console.log(response)
 			var playlist_id = ''
 			for(let i = 0; i<response.total; i++){
 				playlist = response.data[i]
@@ -184,67 +171,41 @@ function SavePlaylist(){
 			} else{
 				console.log('Found Playlist: ' + playlist_id);
 			}
-			// i=0;
-// 			album_tracks_call = `https://api.deezer.com/album/${album_ids[i]}/tracks`
-// 			console.log('Album tracks call:')
-// 			console.log(album_tracks_call)
-//return DeezerPromise(album_tracks_call)
+			// Initialize array for storing all track ids
 			all_track_ids = []
 			for(let i=0, p = Promise.resolve(); i<album_ids.length; i++){
-
+				// p forces asyncronous call to happen synchronously, ensuring the playlist album order matches that of the display on the website
 				p = p.then(
 					function(){
 						album_tracks_call = `album/${album_ids[i]}/tracks`
-						console.log('Album tracks call:')
-						console.log(album_tracks_call)
+						// console.log('Album tracks call:')
+						// console.log(album_tracks_call)
 						return DeezerPromise(album_tracks_call)
 				}).then(
 					function(response){
-						console.log('In the next then from last promise...')
-						console.log(response)
+						// Once we've been returned the response from deezer with the album tracks, store them all
+						// console.log(response)
+						// Array for album track ids
 						album_track_ids = []
 						for(let k = 0; k<response.data.length; k++){
 							album_track_ids.push(response.data[k]['id'])
 						}
-						console.log(album_track_ids)
+						// console.log(album_track_ids)
+						// Store album track ids with running list of all ids
 						all_track_ids = all_track_ids.concat(album_track_ids)
 						if(i == album_ids.length - 1){
-							console.log('Should be last album...')
-							console.log(all_track_ids)
+							// We're on our last album
+							// console.log(all_track_ids)
+							
+							// Add tracks to playlist
 							add_tracks_call = `https://api.deezer.com/playlist/${playlist_id}/tracks&songs=${all_track_ids.join(',')}&request_method=POST&${access_token}`
-							console.log('Add tracks call: ')
-							console.log(add_tracks_call)
+							// console.log('Add tracks call: ')
+							// console.log(add_tracks_call)
 							fetchAsync(add_tracks_call)
 						}
 					}
 				)
-// 				// DeezerPromise()
 			}
 		}
-	)
-	
-	// findAlbumShufflePlaylist(delete_plist)
-	// Example of workign api call
-	// https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
-	// https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
-	// playlist_id = CreateAlbumShufflePlaylist();
-	// console.log('Playlist ID: ' + playlist_id);
-	// Flow: * 
-	// * Get Playlist ID
-	// * Get track ids for each album in order
-	// * Combine into a comma separated list
-	// * Send request
-	// e.g.
-	// https://api.deezer.com/playlist/10426085322/tracks&songs=COMMASEPARATEDSONGS&request_method=POST&access_token=ACCESS_TOKEN
-	track_template = ''
-	// const userAction = async () => {
-	//   const response = await fetch(playlist_call);
-	//   // const myJson = await response.json(); //extract JSON from the http response
-	//   // // do something with myJson
-	//   console.log(response)
-	// }
-    // const response = await fetch(playlist_call);
-	// console.log(response)
-	// console.log(userAction)
-	
+	)	
 }
