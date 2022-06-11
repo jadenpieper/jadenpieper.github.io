@@ -211,7 +211,7 @@ function SavePlaylist(){
 						if(i == album_ids.length - 1){
 							console.log('Should be last album...')
 							console.log(all_track_ids)
-							add_tracks_call = `https://api.deezer.com/playlist/${playlist_id}/tracks&songs=${all_track_ids.join(',')}&request_method=POST&access_token=${access_token}`
+							add_tracks_call = `https://api.deezer.com/playlist/${playlist_id}/tracks&songs=${all_track_ids.join(',')}&request_method=POST&${access_token}`
 							console.log('Add tracks call: ')
 							console.log(add_tracks_call)
 							fetchAsync(add_tracks_call)
