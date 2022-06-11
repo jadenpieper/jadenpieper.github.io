@@ -158,10 +158,13 @@ function SavePlaylist(){
 			playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
 			console.log(playlist_call)
 			// TODO: Pretty sure this flow is wrong, should be a promise?
-			fetchAsync(playlist_call);
+			return fetchAsync(playlist_call);
 		}
 	).then(
-		DeezerPromise(find_playlist_call)
+		function(){
+			console.log('Pre find playlist call')
+			return DeezerPromise(find_playlist_call)
+		}
 	).then(
 		function(response){
 			console.log('Finding playlist')
