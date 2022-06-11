@@ -103,42 +103,22 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 	});
 }
 async function fetchAsync (url) {
-	console.log('Enter fetchAsync contenttype')
 	let response = await fetch(url, 
 		{method: 'POST', 
 		mode: 'no-cors'
 	});
-	console.log(response);
 }
-function findAlbumShufflePlaylist(delete_playlist) {
-	find_playlist_call = '/user/' + user_num + '/playlists'
-	console.log('Find Playlist call - ')
-	console.log(find_playlist_call)
-	DZ.api(find_playlist_call, function(response){
-		for(let i = 0; i<response.total; i++){
-			playlist = response.data[i]
-			if(playlist['title'] == ptitle){
-				console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
-				if(delete_playlist){
-					delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
-					console.log(delete_playlist_call)
-					fetchAsync(delete_playlist_call)
-				} else {
-					return playlist['id']
-				}
-			}
-		}
-		return null
-	})
-}
+// function findAlbumShufflePlaylist(delete_playlist) {
+//
+// }
 
-function CreateAlbumShufflePlaylist(){
-	playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
-	console.log(playlist_call)
-	fetchAsync(playlist_call);
-	delete_plist = false
-	playlist_id = findAlbumShufflePlaylist(delete_plist);
-}
+// function CreateAlbumShufflePlaylist(){
+// 	playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
+// 	console.log(playlist_call)
+// 	fetchAsync(playlist_call);
+// 	delete_plist = false
+// 	playlist_id = findAlbumShufflePlaylist(delete_plist);
+// }
 
 function SavePlaylist(){
 	
@@ -146,12 +126,54 @@ function SavePlaylist(){
 	console.log('User_num ' + user_num)
 	// Find and Delete AlbumShuffle if it exists
 	delete_plist = true
-	findAlbumShufflePlaylist(delete_plist)
+	
+	find_playlist_call = '/user/' + user_num + '/playlists'
+	console.log('Find Playlist call - ')
+	console.log(find_playlist_call)
+	// Start by finding all playlists
+	DZ.api(find_playlist_call, function(response){
+		console.log('Looking for playlists to delete')
+		for(let i = 0; i<response.total; i++){
+			playlist = response.data[i]
+			if(playlist['title'] == ptitle){
+				console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
+				delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
+				console.log(delete_playlist_call)
+				fetchAsync(delete_playlist_call)	
+			}
+		}
+	}).then(
+		function(){
+			console.log('Making playlist')
+			playlist_call = `https://api.deezer.com/user/me/playlists&title=${ptitle}&request_method=POST&${access_token}`
+			console.log(playlist_call)
+			fetchAsync(playlist_call);
+		}
+	).then(
+		DZ.api(find_playlist_call, function(response){
+			console.log('Finding playlist')
+			for(let i = 0; i<response.total; i++){
+				playlist = response.data[i]
+				if(playlist['title'] == ptitle){
+					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
+					return playlist['id']
+					
+				}
+			}
+			return null
+		})
+	).then(
+		function(playlist_id){
+			console.log('Found Playlist: ' + playlist_id);
+		}
+	)
+	
+	// findAlbumShufflePlaylist(delete_plist)
 	// Example of workign api call
 	// https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
 	// https://api.deezer.com/user/me/playlists&title=HAHA&request_method=POST&access_token=frTqPqVJlzxdDKqy54yfGItHoAqSGAzOLt6uR7nTmm0yyDJ54LD
-	playlist_id = CreateAlbumShufflePlaylist();
-	console.log('Playlist ID: ' + playlist_id);
+	// playlist_id = CreateAlbumShufflePlaylist();
+	// console.log('Playlist ID: ' + playlist_id);
 	// Flow: * 
 	// * Get Playlist ID
 	// * Get track ids for each album in order
