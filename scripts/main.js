@@ -9,6 +9,7 @@ var default_user_name = 'bongobonzo_no_login'
 var logged_in = null
 
 var ptitle = 'AlbumShuffle'
+var album_ids = []
 
 current_url = new URL(window.location.href)
 
@@ -102,6 +103,8 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 			album = response.data[album_ix]
 			album_result = `${album['artist']['name']} - ${album['title']}`
 			album_list.appendChild(createAlbumItem(album_result))
+			album_ids.push(album['id'])
+			console.log('Album ids: ' + album_ids)
 		}
 		if(logged_in){
 			document.getElementById("SaveButton").disabled = false;
@@ -149,7 +152,7 @@ function SavePlaylist(){
 				delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
 				console.log(delete_playlist_call)
 				// TODO: Pretty sure this flow is wrong, should be a promise?
-				fetchAsync(delete_playlist_call)
+				return fetchAsync(delete_playlist_call)
 			}
 		}
 	}).then(
@@ -162,7 +165,6 @@ function SavePlaylist(){
 		}
 	).then(
 		function(){
-			console.log('Pre find playlist call')
 			return DeezerPromise(find_playlist_call)
 		}
 	).then(
@@ -182,6 +184,23 @@ function SavePlaylist(){
 				console.log('Could not find playlist id...that is not good')
 			} else{
 				console.log('Found Playlist: ' + playlist_id);
+			}
+			
+			for(let i=0, p = Promise.resolve(); i<album_ids.length; i++){
+				album_tracks_call = `https://api.deezer.com/album/${album_ids[i]}/tracks`
+				p = p.then(function(){
+					return DeezerPromise(album_tracks_call)
+				}).then(
+					function(response){
+						console.log(response)
+						album_track_ids = []
+						for(let k = 0; k<response.data.length; k++){
+							album_track_ids.push(response.data[k]['id'])
+						}
+						console.log(album_track_ids)
+					}
+				)
+				// DeezerPromise()
 			}
 		}
 	)
