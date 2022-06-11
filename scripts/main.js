@@ -45,6 +45,12 @@ if(logged_in){
 	getAlbumsList(user_num, user_name, logged_in)
 }
 
+function DeezerPromise(api_call){
+	// Wrapper to convert Deezer API calls to Promises
+	return new Promise(function(resolve, reject) {
+		DZ.api(api_call, resolve)
+	});
+}
 
 function loginFunction(){
 	// Then, request the user to log in (note we use the Client Flow by saying response_type=token)
@@ -126,12 +132,14 @@ function SavePlaylist(){
 	console.log('User_num ' + user_num)
 	// Find and Delete AlbumShuffle if it exists
 	delete_plist = true
-	
+
 	find_playlist_call = '/user/' + user_num + '/playlists'
 	console.log('Find Playlist call - ')
 	console.log(find_playlist_call)
 	// Start by finding all playlists
-	DZ.api(find_playlist_call, function(response){
+	DeezerPromise(find_playlist_call).then(
+		function(response){
+	// DZ.api(find_playlist_call, function(response){
 		console.log('Looking for playlists to delete')
 		for(let i = 0; i<response.total; i++){
 			playlist = response.data[i]
@@ -139,7 +147,7 @@ function SavePlaylist(){
 				console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 				delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
 				console.log(delete_playlist_call)
-				fetchAsync(delete_playlist_call)	
+				fetchAsync(delete_playlist_call)
 			}
 		}
 	}).then(
@@ -157,7 +165,7 @@ function SavePlaylist(){
 				if(playlist['title'] == ptitle){
 					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 					return playlist['id']
-					
+
 				}
 			}
 			return null
