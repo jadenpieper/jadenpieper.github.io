@@ -188,6 +188,8 @@ function SavePlaylist(){
 			
 			for(let i=0, p = Promise.resolve(); i<album_ids.length; i++){
 				album_tracks_call = `https://api.deezer.com/album/${album_ids[i]}/tracks`
+				console.log('Album tracks call:')
+				console.log(album_tracks_call)
 				p = p.then(function(){
 					return DeezerPromise(album_tracks_call)
 				}).then(
