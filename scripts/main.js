@@ -1,12 +1,14 @@
 // TODO: Make this something meaningful	
 var redirect_uri = 'https://www.jadenpieper.com'
-var perms = 'manage_library'
+var perms = 'manage_library,delete_library'
 var access_token = ''
 
 var user_num = ''
 var default_user_num = 4565334962
 var default_user_name = 'bongobonzo_no_login'
 var logged_in = null
+
+var ptitle = 'AlbumShuffle'
 
 current_url = new URL(window.location.href)
 
@@ -41,6 +43,7 @@ if(logged_in){
 	user_name = default_user_name
 	logged_in = false
 	getAlbumsList(user_num, user_name, logged_in)
+	findAlbumShufflePlaylist()
 }
 
 
@@ -106,15 +109,27 @@ async function fetchAsync (url) {
 		{method: 'POST', 
 		mode: 'no-cors'
 	});
-	console.log(response)
-	let data = await response.json();
-	console.log(data)
-	concole.log('Exit fetchAsync')
-	return data;
+	console.log(response);
+}
+function findAlbumShufflePlaylist() {
+	find_playlist_call = '/user/' + user_num + '/playlists'
+	console.log('Find Playlist call - ')
+	console.log(find_playlist_call)
+	DZ.api(find_playlist_call, function(response){
+		for(let i = 0; i<response.total; i++){
+			playlist = response.data[i]
+			if(playlist['title'] == ptitle){
+				console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
+				delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
+				console.log(delete_playlist_call)
+				fetchAsync(delete_playlist_call)
+			}
+		}
+	})
 }
 
 function SavePlaylist(){
-	let ptitle = 'AlbumShuffle'
+	
 	console.log("Save playlist clicked")
 	console.log('User_num ' + user_num)
 	// playlist_call = '/user/me/playlists'
