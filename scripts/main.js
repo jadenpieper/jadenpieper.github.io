@@ -161,23 +161,25 @@ function SavePlaylist(){
 			fetchAsync(playlist_call);
 		}
 	).then(
-		DeezerPromise(find_playlist_call).then(
-			function(response){
-				console.log('Finding playlist')
-				console.log(response)
-				for(let i = 0; i<response.total; i++){
-					playlist = response.data[i]
-					if(playlist['title'] == ptitle){
-						console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
-						return playlist['id']
-
-					}
-				}
-				return null
-			}
+		DeezerPromise(find_playlist_call)
 	).then(
-		function(playlist_id){
-			console.log('Found Playlist: ' + playlist_id);
+		function(response){
+			console.log('Finding playlist')
+			console.log(response)
+			var playlist_id = ''
+			for(let i = 0; i<response.total; i++){
+				playlist = response.data[i]
+				if(playlist['title'] == ptitle){
+					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
+					playlist_id = playlist['id']
+
+				}
+			}
+			if(playlist_id == ''){
+				console.log('Could not find playlist id...that is not good')
+			} else{
+				console.log('Found Playlist: ' + playlist_id);
+			}
 		}
 	)
 	
