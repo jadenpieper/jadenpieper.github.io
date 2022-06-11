@@ -104,7 +104,6 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 			album_result = `${album['artist']['name']} - ${album['title']}`
 			album_list.appendChild(createAlbumItem(album_result))
 			album_ids.push(album['id'])
-			console.log('Album ids: ' + album_ids)
 		}
 		if(logged_in){
 			document.getElementById("SaveButton").disabled = false;
@@ -194,7 +193,6 @@ function SavePlaylist(){
 
 				p = p.then(
 					function(){
-
 						album_tracks_call = `album/${album_ids[i]}/tracks`
 						console.log('Album tracks call:')
 						console.log(album_tracks_call)
@@ -211,7 +209,7 @@ function SavePlaylist(){
 					}
 				)
 // 				// DeezerPromise()
-// 			}
+			}
 		}
 	)
 	
