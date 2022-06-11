@@ -163,8 +163,6 @@ function SavePlaylist(){
 	).then(
 		DeezerPromise(find_playlist_call).then(
 			function(response){
-				
-		// DZ.api(find_playlist_call, function(response){
 				console.log('Finding playlist')
 				console.log(response)
 				for(let i = 0; i<response.total; i++){
@@ -176,6 +174,7 @@ function SavePlaylist(){
 					}
 				}
 				return null
+			}
 	).then(
 		function(playlist_id){
 			console.log('Found Playlist: ' + playlist_id);
