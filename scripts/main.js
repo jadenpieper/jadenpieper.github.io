@@ -1,6 +1,6 @@
 // TODO: Make this something meaningful	
 var redirect_uri = 'https://www.jadenpieper.com'
-var perms = 'manage_library,delete_library'
+var perms = 'manage_library,delete_library,listening_history'
 var access_token = ''
 
 var user_num = ''
