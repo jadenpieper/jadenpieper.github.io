@@ -98,8 +98,18 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 		library_info = document.querySelector('#library_info');
 		library_info.textContent = total_albums;
 		const album_list = document.querySelector('#albums');
+		used_ix = []
+		tries = 0
+		tries_lim = 100
 		for (let ix =0; ix < 5; ix++) {
-			album_ix = Math.floor(Math.random() * response.total)
+			while (true & tries < tries_lim ) {
+				tries = tries + 1
+			    album_ix = Math.floor(Math.random() * response.total)
+			    if (!used_ix.includes(album_ix)) {
+			      used_ix.push(album_ix)
+			      break
+			    }
+			  }	
 			album = response.data[album_ix]
 			album_result = `${album['artist']['name']} - ${album['title']}`
 			album_list.appendChild(createAlbumItem(album_result))
