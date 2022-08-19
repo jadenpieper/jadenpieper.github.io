@@ -92,7 +92,7 @@ function getAlbumsList(user_num, user_name_str, logged_in){
 	// Define the api call for getting the library in albums
 	let api_call = `/user/${user_num}/albums&limit=${album_limit}`
 	// console.log(api_call)
-
+	console.log('Did this update')
 	DZ.api(api_call, function(response){
 		let total_albums = `Number of albums in library: ${response.total}`;
 		library_info = document.querySelector('#library_info');
