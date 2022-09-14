@@ -40,6 +40,7 @@ if(logged_in){
 	});
 } else { 
 	console.log('No user logged in')
+	console.log('where is update')
 	user_num = default_user_num
 	user_name = default_user_name
 	logged_in = false
@@ -170,6 +171,7 @@ function SavePlaylist(){
 			var playlist_id = ''
 			for(let i = 0; i<response.total; i++){
 				playlist = response.data[i]
+				console.log(response.data)
 				if(playlist['title'] == ptitle){
 					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 					playlist_id = playlist['id']
