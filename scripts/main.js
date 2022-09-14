@@ -172,7 +172,8 @@ function SavePlaylist(){
 			for(let i = 0; i<response.total; i++){
 				console.log('Change1')
 				playlist = response.data[i]
-				console.log(playlist)
+				console.log('Have: ' + playlist['title'] + ', want: ' + ptitle)
+				
 				if(playlist['title'] == ptitle){
 					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 					playlist_id = playlist['id']
