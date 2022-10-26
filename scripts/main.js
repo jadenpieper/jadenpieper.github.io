@@ -199,8 +199,13 @@ function SavePlaylist(){
 						// console.log(response)
 						// Array for album track ids
 						album_track_ids = []
-						for(let k = 0; k<response.data.length; k++){
-							album_track_ids.push(response.data[k]['id'])
+						if(response.data == null){
+							console.log('Missing album, update library')
+							console.log(reponse)
+						} else{
+							for(let k = 0; k<response.data.length; k++){
+								album_track_ids.push(response.data[k]['id'])
+							}
 						}
 						// console.log(album_track_ids)
 						// Store album track ids with running list of all ids
