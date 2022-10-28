@@ -201,7 +201,6 @@ function SavePlaylist(){
 						album_track_ids = []
 						if(response.data == null){
 							console.log('Missing album, update library')
-							console.log(reponse)
 						} else{
 							for(let k = 0; k<response.data.length; k++){
 								album_track_ids.push(response.data[k]['id'])
