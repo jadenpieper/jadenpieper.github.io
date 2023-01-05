@@ -136,6 +136,7 @@ function SavePlaylist(){
 	
 	// Call for finding all a user's playlists
 	find_playlist_call = '/user/' + user_num + '/playlists'
+	
 	// console.log('Find Playlist call - ')
 	// console.log(find_playlist_call)
 	
@@ -143,8 +144,21 @@ function SavePlaylist(){
 	DeezerPromise(find_playlist_call).then(
 		function(response){
 			// console.log('Looking for playlists to delete')
-			for(let i = 0; i<response.data.length; i++){
-				playlist = response.data[i]
+			
+		   	playlists = response.data   	
+			next = response.next
+			while(next){
+				DZ.api(next, function(next_response){
+					console.log('New playlists:')
+					console.log(next_response.data)
+					console.log('Next:')
+					console.log(next)
+					next = next_response.next
+					playlists = playlists.concat(next_response.data)
+				});
+			}   	
+			for(let i = 0; i<playlists.length; i++){
+				playlist = playlists[i]
 				if(playlist['title'] == ptitle){
 					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 					delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
@@ -169,9 +183,20 @@ function SavePlaylist(){
 			// console.log('Finding playlist')
 			// console.log(response)
 			var playlist_id = ''
-			
-			for(let i = 0; i<response.data.length; i++){
-				playlist = response.data[i]
+		   	playlists = response.data   	
+			next = response.next
+			while(next){
+				DZ.api(next, function(next_response){
+					console.log('New playlists:')
+					console.log(next_response.data)
+					console.log('Next:')
+					console.log(next)
+					next = next_response.next
+					playlists = playlists.concat(next_response.data)
+				});
+			}
+			for(let i = 0; i<playlists.length; i++){
+				playlist = playlists[i]
 				if(playlist['title'] == ptitle){
 					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 					playlist_id = playlist['id']
