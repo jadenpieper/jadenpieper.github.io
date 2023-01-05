@@ -153,7 +153,7 @@ async function SavePlaylist(){
 			is_next = typeof response.next != "undefined"
 			console.log('Do I have next?')
 			console.log(is_next)
-			next_response = response
+			let next_response = response
 			save_me = 0
 			while(is_next & save_me < 10){
 				next = next_response.next.replace('https://api.deezer.com', '')
@@ -163,7 +163,7 @@ async function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				const next_response = await DeezerPromise(next)
+				next_response = await DeezerPromise(next)
 				// setTimeout(() => console.log(next_response), 1000)
 				console.log('next_response:')
 				console.log(next_response)
@@ -203,7 +203,7 @@ async function SavePlaylist(){
 			console.log('Do I have next?')
 			console.log(is_next)
 			
-			next_response = response
+			let next_response = response
 			save_me = 0
 			while(is_next & save_me < 10){
 				next = next_response.next.replace('https://api.deezer.com', '')
@@ -213,7 +213,7 @@ async function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				const next_response = await DeezerPromise(next)
+				next_response = await DeezerPromise(next)
 				// setTimeout(() => console.log(next_response), 1000)
 				console.log('next_response:')
 				console.log(next_response)
