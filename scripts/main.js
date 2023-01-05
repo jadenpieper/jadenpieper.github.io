@@ -145,21 +145,26 @@ function SavePlaylist(){
 		function(response){
 			// console.log('Looking for playlists to delete')
 			
-		   	playlists = response.data   	
-			next = response.next.replace('https://api.deezer.com', '')
+		   	playlists = response.data 
+			  	
+			is_next = typeof response.next != "undefined"
 			console.log('Do I have next?')
-			console.log(response.next)
-			console.log(next)
+			console.log(is_next)
 			
 			save_me = 0
-			while(next & save_me < 10){
+			while(is_next & save_me < 10){
+				next = response.next.replace('https://api.deezer.com', '')
+				console.log('Full response.next then trimmed next:')
+				console.log(response.next)
+				console.log(next)
+				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
 				DZ.api(next, function(next_response){
 					console.log('New playlists:')
 					console.log(next_response.data)
-					
-					next = next_response.next.replace('https://api.deezer.com/', '')
+					is_next = next_response.next != "undefined"
+					// next = next_response.next.replace('https://api.deezer.com/', '')
 					console.log('Next:')
 					console.log(next)
 					
@@ -194,20 +199,24 @@ function SavePlaylist(){
 			var playlist_id = ''
 		   	playlists = response.data   	
 			
-			next = response.next.replace('https://api.deezer.com', '')
+			is_next = typeof response.next != "undefined"
 			console.log('Do I have next?')
-			console.log(response.next)
-			console.log(next)
+			console.log(is_next)
 			
 			save_me = 0
-			while(next & save_me < 10){
+			while(is_next & save_me < 10){
+				next = response.next.replace('https://api.deezer.com', '')
+				console.log('Full response.next then trimmed next:')
+				console.log(response.next)
+				console.log(next)
+				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
 				DZ.api(next, function(next_response){
 					console.log('New playlists:')
 					console.log(next_response.data)
-					
-					next = next_response.next.replace('https://api.deezer.com/', '')
+					is_next = next_response.next != "undefined"
+					// next = next_response.next.replace('https://api.deezer.com/', '')
 					console.log('Next:')
 					console.log(next)
 					
