@@ -142,6 +142,8 @@ function SavePlaylist(){
 	// Start by finding all playlists
 	DeezerPromise(find_playlist_call).then(
 		function(response){
+			console.log('Finding playlists:')
+			console.log(response)
 			// console.log('Looking for playlists to delete')
 			for(let i = 0; i<response.total; i++){
 				playlist = response.data[i]
