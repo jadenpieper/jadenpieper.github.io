@@ -211,9 +211,11 @@ async function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				const next_response = await getPlaylists(next)
+				const next_response = await DeezerPromise(next)
+				// setTimeout(() => console.log(next_response), 1000)
 				console.log(next_response)
 				is_next = next_response.next != "undefined"
+				console.log('is_next: ' + is_next)
 				playlists = playlists.concat(next_response.data)
 			}
 			for(let i = 0; i<playlists.length; i++){
