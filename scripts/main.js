@@ -146,7 +146,7 @@ async function SavePlaylist(){
 	
 	// Start by finding all playlists
 	DeezerPromise(find_playlist_call).then(
-		function(response){
+		async function(response){
 			// console.log('Looking for playlists to delete')
 			
 		   	playlists = response.data 
@@ -191,7 +191,7 @@ async function SavePlaylist(){
 			return DeezerPromise(find_playlist_call)
 		}
 	).then(
-		function(response){
+		async function(response){
 			// console.log('Finding playlist')
 			// console.log(response)
 			var playlist_id = ''
