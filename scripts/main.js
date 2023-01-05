@@ -128,7 +128,19 @@ async function fetchAsync (url) {
 	});
 	return response
 }
-
+async function getPlaylists(api_call){
+	return DeezerPromise(api_call)
+	// DZ.api(next, function(next_response){
+// 		console.log('New playlists:')
+// 		console.log(next_response.data)
+// 		is_next = next_response.next != "undefined"
+// 		// next = next_response.next.replace('https://api.deezer.com/', '')
+// 		console.log('Next:')
+// 		console.log(next)
+//
+// 		playlists = playlists.concat(next_response.data)
+// 		});
+}
 function SavePlaylist(){
 	
 	// console.log("Save playlist clicked")
@@ -160,17 +172,10 @@ function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				await DZ.api(next, function(next_response){
-					console.log('New playlists:')
-					console.log(next_response.data)
-					is_next = next_response.next != "undefined"
-					// next = next_response.next.replace('https://api.deezer.com/', '')
-					console.log('Next:')
-					console.log(next)
-					
-					playlists = playlists.concat(next_response.data)
-				});
-			}   	
+				const next_response = await DeezerPromise(next)
+				console.log(next_reponse)
+				is_next = next_response.next != "undefined"
+				playlists = playlists.concat(next_response.data)
 			for(let i = 0; i<playlists.length; i++){
 				playlist = playlists[i]
 				if(playlist['title'] == ptitle){
@@ -212,16 +217,10 @@ function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				await DZ.api(next, function(next_response){
-					console.log('New playlists:')
-					console.log(next_response.data)
-					is_next = next_response.next != "undefined"
-					// next = next_response.next.replace('https://api.deezer.com/', '')
-					console.log('Next:')
-					console.log(next)
-					
-					playlists = playlists.concat(next_response.data)
-				});
+				const next_response = await DeezerPromise(next)
+				console.log(next_reponse)
+				is_next = next_response.next != "undefined"
+				playlists = playlists.concat(next_response.data)
 			}
 			for(let i = 0; i<playlists.length; i++){
 				playlist = playlists[i]
