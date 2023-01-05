@@ -131,7 +131,7 @@ async function fetchAsync (url) {
 function getPlaylists(api_call){
 	return DeezerPromise(api_call)
 }
-
+console.log("convenienc log")
 async function SavePlaylist(){
 	
 	// console.log("Save playlist clicked")
