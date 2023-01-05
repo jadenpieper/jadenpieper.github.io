@@ -164,7 +164,7 @@ async function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				const next_response = getPlaylists(next)
+				const next_response = await getPlaylists(next)
 				console.log(next_reponse)
 				is_next = next_response.next != "undefined"
 				playlists = playlists.concat(next_response.data)
@@ -210,7 +210,7 @@ async function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				const next_response = getPlaylists(next)
+				const next_response = await getPlaylists(next)
 				console.log(next_reponse)
 				is_next = next_response.next != "undefined"
 				playlists = playlists.concat(next_response.data)
