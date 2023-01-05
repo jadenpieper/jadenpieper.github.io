@@ -133,7 +133,7 @@ async function getPlaylists(api_call){
 	return response
 
 }
-function SavePlaylist(){
+async function SavePlaylist(){
 	
 	// console.log("Save playlist clicked")
 	// console.log('User_num ' + user_num)
