@@ -146,9 +146,11 @@ function SavePlaylist(){
 			// console.log('Looking for playlists to delete')
 			
 		   	playlists = response.data   	
-			next = response.next
+			next = response.next.replace('https://api.deezer.com', '')
 			console.log('Do I have next?')
 			console.log(response.next)
+			console.log(next)
+			
 			save_me = 0
 			while(next & save_me < 10){
 				console.log('Save me: ' + save_me)
@@ -156,9 +158,11 @@ function SavePlaylist(){
 				DZ.api(next, function(next_response){
 					console.log('New playlists:')
 					console.log(next_response.data)
+					
+					next = next_response.next.replace('https://api.deezer.com/', '')
 					console.log('Next:')
 					console.log(next)
-					next = next_response.next
+					
 					playlists = playlists.concat(next_response.data)
 				});
 			}   	
@@ -189,7 +193,12 @@ function SavePlaylist(){
 			// console.log(response)
 			var playlist_id = ''
 		   	playlists = response.data   	
-			next = response.next
+			
+			next = response.next.replace('https://api.deezer.com', '')
+			console.log('Do I have next?')
+			console.log(response.next)
+			console.log(next)
+			
 			save_me = 0
 			while(next & save_me < 10){
 				console.log('Save me: ' + save_me)
@@ -197,9 +206,11 @@ function SavePlaylist(){
 				DZ.api(next, function(next_response){
 					console.log('New playlists:')
 					console.log(next_response.data)
+					
+					next = next_response.next.replace('https://api.deezer.com/', '')
 					console.log('Next:')
 					console.log(next)
-					next = next_response.next
+					
 					playlists = playlists.concat(next_response.data)
 				});
 			}
