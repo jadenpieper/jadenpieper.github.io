@@ -128,11 +128,10 @@ async function fetchAsync (url) {
 	});
 	return response
 }
-async function getPlaylists(api_call){
-	const response = await DeezerPromise(api_call)
-	return response
-
+function getPlaylists(api_call){
+	return DeezerPromise(api_call)
 }
+
 async function SavePlaylist(){
 	
 	// console.log("Save playlist clicked")
@@ -165,7 +164,7 @@ async function SavePlaylist(){
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
 				const next_response = await getPlaylists(next)
-				setTimeout(() => console.log(next_response), 5000)
+				// setTimeout(() => console.log(next_response), 5000)
 				console.log(next_reponse)
 				is_next = next_response.next != "undefined"
 				playlists = playlists.concat(next_response.data)
