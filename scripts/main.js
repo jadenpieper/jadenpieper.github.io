@@ -160,7 +160,7 @@ function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				DZ.api(next, function(next_response){
+				await DZ.api(next, function(next_response){
 					console.log('New playlists:')
 					console.log(next_response.data)
 					is_next = next_response.next != "undefined"
@@ -212,7 +212,7 @@ function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				DZ.api(next, function(next_response){
+				await DZ.api(next, function(next_response){
 					console.log('New playlists:')
 					console.log(next_response.data)
 					is_next = next_response.next != "undefined"
