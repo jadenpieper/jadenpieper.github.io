@@ -147,6 +147,8 @@ function SavePlaylist(){
 			
 		   	playlists = response.data   	
 			next = response.next
+			console.log('Do I have next?')
+			console.log(response.next)
 			save_me = 0
 			while(next & save_me < 10){
 				console.log('Save me: ' + save_me)
@@ -188,7 +190,10 @@ function SavePlaylist(){
 			var playlist_id = ''
 		   	playlists = response.data   	
 			next = response.next
-			while(next){
+			save_me = 0
+			while(next & save_me < 10){
+				console.log('Save me: ' + save_me)
+				save_me = save_me + 1
 				DZ.api(next, function(next_response){
 					console.log('New playlists:')
 					console.log(next_response.data)
