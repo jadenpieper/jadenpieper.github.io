@@ -146,7 +146,11 @@ function SavePlaylist(){
 			console.log(response)
 			// console.log('Looking for playlists to delete')
 			for(let i = 0; i<response.total; i++){
+				console.log('Is response.data[i] here?')
+				console.log(response.data[i])
 				playlist = response.data[i]
+				console.log('Is playlist here?')
+				console.log(playlist)
 				if(playlist['title'] == ptitle){
 					console.log('Found ' + playlist['title'] + ', ID: ' + playlist['id'])
 					delete_playlist_call = `https://api.deezer.com/playlist/${playlist['id']}&request_method=DELETE&${access_token}`
