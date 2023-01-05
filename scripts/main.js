@@ -129,17 +129,9 @@ async function fetchAsync (url) {
 	return response
 }
 async function getPlaylists(api_call){
-	return DeezerPromise(api_call)
-	// DZ.api(next, function(next_response){
-// 		console.log('New playlists:')
-// 		console.log(next_response.data)
-// 		is_next = next_response.next != "undefined"
-// 		// next = next_response.next.replace('https://api.deezer.com/', '')
-// 		console.log('Next:')
-// 		console.log(next)
-//
-// 		playlists = playlists.concat(next_response.data)
-// 		});
+	const response = await DeezerPromise(api_call)
+	return response
+
 }
 function SavePlaylist(){
 	
@@ -172,7 +164,7 @@ function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				const next_response = await DeezerPromise(next)
+				const next_response = getPlaylists(next)
 				console.log(next_reponse)
 				is_next = next_response.next != "undefined"
 				playlists = playlists.concat(next_response.data)
@@ -217,7 +209,7 @@ function SavePlaylist(){
 				
 				console.log('Save me: ' + save_me)
 				save_me = save_me + 1
-				const next_response = await DeezerPromise(next)
+				const next_response = getPlaylists(next)
 				console.log(next_reponse)
 				is_next = next_response.next != "undefined"
 				playlists = playlists.concat(next_response.data)
