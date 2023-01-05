@@ -167,7 +167,7 @@ async function SavePlaylist(){
 				// setTimeout(() => console.log(next_response), 1000)
 				console.log('next_response:')
 				console.log(next_response)
-				is_next = next_response.next != "undefined"
+				is_next = typeof next_response.next != "undefined"
 				console.log('is_next: ' + is_next)
 				console.log(next_response.next)
 				playlists = playlists.concat(next_response.data)
@@ -200,10 +200,9 @@ async function SavePlaylist(){
 			var playlist_id = ''
 		   	playlists = response.data   	
 			
-			is_next = typeof response.next != "undefined"
+			let is_next = typeof response.next != "undefined"
 			console.log('Do I have next?')
 			console.log(is_next)
-			
 			let next_response = response
 			save_me = 0
 			while(is_next & save_me < 10){
@@ -218,8 +217,9 @@ async function SavePlaylist(){
 				// setTimeout(() => console.log(next_response), 1000)
 				console.log('next_response:')
 				console.log(next_response)
-				is_next = next_response.next != "undefined"
+				is_next = typeof next_response.next != "undefined"
 				console.log('is_next: ' + is_next)
+				console.log(next_response.next)
 				playlists = playlists.concat(next_response.data)
 			}
 			for(let i = 0; i<playlists.length; i++){
