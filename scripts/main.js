@@ -150,7 +150,7 @@ async function SavePlaylist(){
 			
 		   	playlists = response.data 
 			  	
-			is_next = typeof response.next != "undefined"
+			let is_next = typeof response.next != "undefined"
 			console.log('Do I have next?')
 			console.log(is_next)
 			let next_response = response
@@ -169,6 +169,7 @@ async function SavePlaylist(){
 				console.log(next_response)
 				is_next = next_response.next != "undefined"
 				console.log('is_next: ' + is_next)
+				console.log(next_response.next)
 				playlists = playlists.concat(next_response.data)
 			}
 			for(let i = 0; i<playlists.length; i++){
