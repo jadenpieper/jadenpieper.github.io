@@ -168,6 +168,7 @@ function SavePlaylist(){
 				console.log(next_reponse)
 				is_next = next_response.next != "undefined"
 				playlists = playlists.concat(next_response.data)
+			}
 			for(let i = 0; i<playlists.length; i++){
 				playlist = playlists[i]
 				if(playlist['title'] == ptitle){
